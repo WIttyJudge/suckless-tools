@@ -18,6 +18,11 @@ $ patch -p1 < patches/to/patch.diff
 $ sudo make clean install
 ```
 
+if you want to delete extension (unpatches).
+```
+patch -R < patches/patch.diff
+```
+
 ## Dmenu
 
 Patches: 
