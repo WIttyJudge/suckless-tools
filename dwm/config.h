@@ -29,7 +29,7 @@ static const char col_yellow[]      = "#ebcb8b";
 static const char col_orange[]      = "#d08770";
 
 static const char *colors[][3]      = {
-	/*					fg         bg          border   */
+	/*				          	fg         bg        border   */
 	[SchemeNorm]   = { col_gray3, col_gray1, col_gray2 },
 	[SchemeSel]    = { col_gray4, col_cyan, col_cyan },
 	[SchemeRed]    = { col_red, col_gray1, col_gray2 },
@@ -48,13 +48,13 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/*  class      instance    title                  tags mask      iscentered     isfloating   monitor */
-	{ "Chromium",    NULL,   "Chromium Browser",       1 << 1,          0,              0,          -1 },
-	{ "Brave",       NULL,   "Brave Browser",          1 << 1,          0,              0,          -1 },
+	{ "chromium",    NULL,       NULL,                 1 << 1,          0,              0,          -1 },
+	{ "brave",       NULL,       NULL,                 1 << 1,          0,              0,          -1 },
 
-	{ "Telegram",    NULL,       NULL,                 1 << 3,          1,              1,          -1 },
+	{ "telegram",    NULL,       NULL,                 1 << 3,          1,              1,          -1 },
 	{ "discord",     NULL,       NULL,                 1 << 3,          0,              0,          -1 },
  
-	{ "Steam",       NULL,       NULL,                 1 << 4,          0,              0,          -1 },
+	{ "steam",       NULL,       NULL,                 1 << 4,          0,              0,          -1 },
 };
 
 /* layout(s) */
