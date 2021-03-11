@@ -2,3 +2,6 @@ dwm/util.o
 dwm/dwm
 dwm/dwm.o
 dwm/drw.o
+
+dwmblocks/blocks.h
+dwmblocks/dwmblocks
