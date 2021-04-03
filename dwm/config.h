@@ -90,7 +90,7 @@ static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont,
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	/* { MODKEY,                    XK_p,      spawn,          {.v = dmenucmd } }, */
-	/* { MODKEY,                       XK_b,      togglebar,      {0} }, */
+	{ MODKEY,                       XK_b,      togglebar,      {0} },
 
   /* Chage size */
 	{ MODKEY|ShiftMask,             XK_l,      rotatestack,    {.i = +1 } },
