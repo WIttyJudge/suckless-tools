@@ -1,4 +1,4 @@
-# Luke's dmenu
+# My dmenu
 
 Extra stuff added to vanilla dmenu:
 
