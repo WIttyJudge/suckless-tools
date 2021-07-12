@@ -27,12 +27,12 @@ static int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { "monospace:pixelsize=12",
 	                                    "JoyPixels:size=10:antialias=true:autohint=true" };
 
-static char normbgcolor[]           = "#222222";
+static char normbgcolor[]           = "#282828";
 static char normbordercolor[]       = "#444444";
 static char normfgcolor[]           = "#bbbbbb";
 static char selfgcolor[]            = "#eeeeee";
 static char selbordercolor[]        = "#770000";
-static char selbgcolor[]            = "#005577";
+static char selbgcolor[]            = "#458588";
 static char *colors[][3] = {
        /*               fg           bg           border   */
        [SchemeNorm] = { normfgcolor, normbgcolor, normbordercolor },
@@ -70,10 +70,11 @@ static const Rule rules[] = {
 	{ "TelegramDesktop",  NULL,       NULL,          1 << 3,       1,           0,         0,        -1 },
 	{ "discord",          NULL,       NULL,          1 << 3,       0,           0,         0,        -1 },
 	{ "Slack",            NULL,       NULL,          1 << 3,       0,           0,         0,        -1 },
+	{ "zoom",             NULL,       NULL,          1 << 3,       0,           0,         0,        -1 },
 
 	{ "Steam",            NULL,       NULL,          1 << 4,       0,           0,         0,        -1 },
 	{ "Lutris",           NULL,       NULL,          1 << 4,       0,           0,         0,        -1 },
-	{ "Battle.net",       NULL,       NULL,          1 << 4,       0,           0,         0,        -1 },
+	{ "battle.net.exe",   NULL,       NULL,          1 << 4,       0,           0,         0,        -1 },
 };
 
 /* layout(s) */
@@ -126,25 +127,25 @@ static const char *termcmd[]  = { TERMINAL, NULL };
  * Xresources preferences to load at startup
  */
 ResourcePref resources[] = {
-		{ "color0",		STRING,	&normbordercolor },
-		{ "color8",		STRING,	&selbordercolor },
-		{ "background",		STRING,	&normbgcolor },
-		{ "foreground",	STRING,	&normfgcolor },
-		{ "color0",		STRING,	&selfgcolor },
-		{ "color4",		STRING,	&selbgcolor },
-		{ "borderpx",		INTEGER, &borderpx },
-		{ "snap",		INTEGER, &snap },
-		{ "showbar",		INTEGER, &showbar },
-		{ "topbar",		INTEGER, &topbar },
-		{ "nmaster",		INTEGER, &nmaster },
-		{ "resizehints",	INTEGER, &resizehints },
-		{ "mfact",		FLOAT,	&mfact },
-		{ "gappih",		INTEGER, &gappih },
-		{ "gappiv",		INTEGER, &gappiv },
-		{ "gappoh",		INTEGER, &gappoh },
-		{ "gappov",		INTEGER, &gappov },
-		{ "swallowfloating",	INTEGER, &swallowfloating },
-		{ "smartgaps",		INTEGER, &smartgaps },
+		{ "color0",	     	   STRING,	&normbordercolor },
+		{ "color8",		       STRING,	&selbordercolor },
+		{ "background",		   STRING,	&normbgcolor },
+		{ "foreground",	     STRING,	&normfgcolor },
+		{ "color0",	   	     STRING,	&selfgcolor },
+		{ "color4",		       STRING,	&selbgcolor },
+		{ "borderpx",		     INTEGER, &borderpx },
+		{ "snap",		         INTEGER, &snap },
+		{ "showbar",		     INTEGER, &showbar },
+		{ "topbar",		       INTEGER, &topbar },
+		{ "nmaster",	       INTEGER, &nmaster },
+		{ "resizehints",	   INTEGER, &resizehints },
+		{ "mfact",		       FLOAT, 	&mfact },
+		{ "gappih",		       INTEGER, &gappih },
+		{ "gappiv",		       INTEGER, &gappiv },
+		{ "gappoh",	         INTEGER, &gappoh },
+		{ "gappov",		       INTEGER, &gappov },
+		{ "swallowfloating", INTEGER, &swallowfloating },
+		{ "smartgaps",	   	 INTEGER, &smartgaps },
 };
 
 #include <X11/XF86keysym.h>
@@ -240,9 +241,7 @@ static Key keys[] = {
 	{ MODKEY,		        	XK_Page_Down,	shiftview,	{ .i = +1 } },
 	{ MODKEY|ShiftMask,		XK_Page_Down,	shifttag,	{ .i = +1 } },
 
-	/* { MODKEY,			XK_F5,		xrdb,		{.v = NULL } }, */
-	{ MODKEY,			XK_F12,		spawn,		SHCMD("remaps & notify-send \\\"⌨️ Keyboard remapping...\\\" \\\"Re-running keyboard defaults for any newly plugged-in keyboards.\\\"") },
-	{ MODKEY,			XK_space,	zoom,		{0} },
+	{ MODKEY,			        XK_space,	zoom,		{0} },
 	{ MODKEY|ShiftMask,		XK_space,	togglefloating,	{0} },
 
 	/* { MODKEY|Mod4Mask,              XK_h,      incrgaps,       {.i = +1 } }, */
