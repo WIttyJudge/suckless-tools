@@ -37,6 +37,8 @@ static char *colors[][3] = {
        /*               fg           bg           border   */
        [SchemeNorm] = { normfgcolor, normbgcolor, normbordercolor },
        [SchemeSel]  = { selfgcolor,  selbgcolor,  selbordercolor  },
+       /* Colors of the title bar */
+       [SchemeTitle]  = { normfgcolor, normbgcolor, normbordercolor  },
 };
 
 typedef struct {
@@ -88,12 +90,12 @@ static const Layout layouts[] = {
 	{ "TTT",	bstack },		/* Master on top, slaves on bottom */
 
 	{ "[@]",	spiral },		/* Fibonacci spiral */
-	{ "[\\]",	dwindle },		/* Decreasing in size right and leftward */
+	{ "[\\]",	dwindle },	/* Decreasing in size right and leftward */
 
 	{ "[D]",	deck },			/* Master on left, slaves in monocle-like mode on right */
- 	{ "[M]",	monocle },		/* All windows on top of eachother */
+ 	{ "[M]",	monocle },	/* All windows on top of eachother */
 
-	{ "|M|",	centeredmaster },		/* Master in middle, slaves on sides */
+	{ "|M|",	centeredmaster },		      /* Master in middle, slaves on sides */
 	{ ">M>",	centeredfloatingmaster },	/* Same but master floats */
 
 	{ "><>",	NULL },			/* no layout function means floating behavior */
@@ -154,8 +156,6 @@ static Key keys[] = {
 	/* modifier                     key        function        argument */
 	STACKKEYS(MODKEY,                          focus)
 	STACKKEYS(MODKEY|ShiftMask,                push)
-	/* { MODKEY|ShiftMask,		XK_Escape,	spawn,	SHCMD("") }, */
-	/* { MODKEY|ShiftMask,		XK_grave,	togglescratch,	SHCMD("") }, */
 	TAGKEYS(			XK_1,		0)
 	TAGKEYS(			XK_2,		1)
 	TAGKEYS(			XK_3,		2)
@@ -169,16 +169,11 @@ static Key keys[] = {
 	{ MODKEY,		        	XK_0,		view,		{.ui = ~0 } },
 	{ MODKEY|ShiftMask,		XK_0,		tag,		{.ui = ~0 } },
 
-	/* { MODKEY,	        		XK_BackSpace,	spawn,		SHCMD("dmenu-system") }, */
-
 	{ MODKEY,			XK_Tab,		view,		{0} },
 	/* { MODKEY|ShiftMask,		XK_Tab,		spawn,		SHCMD("") }, */
 	{ MODKEY,			XK_q,		killclient,	{0} },
 
-	/* { MODKEY,			XK_w,		spawn,		SHCMD("$BROWSER") }, */
-	/* { MODKEY|ShiftMask,		XK_w,		spawn,		SHCMD(TERMINAL " -e sudo nmtui") }, */
-	/* { MODKEY,			XK_r,		spawn,		SHCMD(TERMINAL " -e lf") }, */
-
+  /* LAYOUTS */
 	{ MODKEY,		        	XK_t,		setlayout,  {.v = &layouts[0]} },   /* tile */
 	{ MODKEY|ShiftMask,		XK_t,		setlayout,	{.v = &layouts[1]} },   /* bstack */
 
@@ -195,9 +190,9 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,		XK_o,		incnmaster, {.i = -1 } },
 
 	{ MODKEY,		        	XK_backslash,		view,		{0} },
+
 	{ MODKEY,       			XK_g,		shiftview,	{ .i = -1 } },
-	{ MODKEY|ShiftMask,		XK_g,		shifttag,	{ .i = -1 } },
-	/* { MODKEY|ShiftMask,		XK_backslash,		spawn,		SHCMD("") }, */
+	{ MODKEY|ShiftMask,		XK_g,		shifttag,	  { .i = -1 } },
 
 	{ MODKEY,	        		XK_a,		togglegaps,	{0} },
 	{ MODKEY|ShiftMask,		XK_a,		defaultgaps,	{0} },
