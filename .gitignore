@@ -5,3 +5,10 @@ dwm/drw.o
 
 dwmblocks/blocks.h
 dwmblocks/dwmblocks
+
+*.orig
+*.rej
+util.o
+dwm
+dwm.o
+drw.o

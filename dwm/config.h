@@ -2,7 +2,7 @@
 
 /* Constants */
 #define TERMINAL "urxvt"
-#define TERMCLASS "Urxvt"
+#define TERMCLASS "Alacritty"
 
 /* appearance */
 static unsigned int borderpx  = 2;       /* border pixel of windows */

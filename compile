@@ -1,0 +1,24 @@
+#!/usr/bin/env sh
+
+# FUNCTIONS
+
+logger() {
+  title=$1
+  argument=$2
+  color="\033[$3"
+  NC='\033[0m' # No Color
+
+  printf "${color}$title${NC} $argument\n"
+}
+
+folders_name=(
+  dmenu
+  dwm
+  dwmblocks
+  slock
+)
+
+for i in "${folders_name[@]}"; do
+  logger 'Compile:' "$i" '0;32m'
+  sudo make -C $i clean install
+done
