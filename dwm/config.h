@@ -69,6 +69,8 @@ static const Rule rules[] = {
 	{ "Brave",            NULL,       NULL,          1 << 0,       0,           0,         0,        -1 },
 	{ "Chromium",         NULL,       NULL,          1 << 0,       0,           0,         0,        -1 },
 
+  { "jetbrains-rubymine", NULL,     NULL,          1 << 2,       0,           0,         0,        -1 },
+
 	{ "TelegramDesktop",  NULL,       NULL,          1 << 3,       1,           0,         0,        -1 },
 	{ "discord",          NULL,       NULL,          1 << 3,       0,           0,         0,        -1 },
 	{ "Slack",            NULL,       NULL,          1 << 3,       0,           0,         0,        -1 },
