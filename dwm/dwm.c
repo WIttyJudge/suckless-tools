@@ -57,6 +57,8 @@
 #define ISINC(X)                ((X) > 1000 && (X) < 3000)
 #define ISVISIBLE(C)            ((C->tags & C->mon->tagset[C->mon->seltags]) || C->issticky)
 #define PREVSEL                 3000
+#define ISVISIBLEONTAG(C, T)    ((C->tags & T))
+#define ISVISIBLE(C)            ISVISIBLEONTAG(C, C->mon->tagset[C->mon->seltags])
 #define LENGTH(X)               (sizeof X / sizeof X[0])
 #define MOUSEMASK               (BUTTONMASK|PointerMotionMask)
 #define MOD(N,M)                ((N)%(M) < 0 ? (N)%(M) + (M) : (N)%(M))
@@ -180,6 +182,7 @@ static int applysizehints(Client *c, int *x, int *y, int *w, int *h, int interac
 static void arrange(Monitor *m);
 static void arrangemon(Monitor *m);
 static void attach(Client *c);
+static void attachBelow(Client *c);
 static void attachstack(Client *c);
 static void buttonpress(XEvent *e);
 static void checkotherwm(void);
@@ -218,6 +221,7 @@ static void maprequest(XEvent *e);
 static void monocle(Monitor *m);
 static void motionnotify(XEvent *e);
 static void movemouse(const Arg *arg);
+static Client *nexttagged(Client *c);
 static Client *nexttiled(Client *c);
 static void pop(Client *);
 static void propertynotify(XEvent *e);
@@ -472,6 +476,27 @@ attach(Client *c)
 {
 	c->next = c->mon->clients;
 	c->mon->clients = c;
+}
+void
+attachBelow(Client *c)
+{
+	//If there is nothing on the monitor or the selected client is floating, attach as normal
+	if(c->mon->sel == NULL || c->mon->sel->isfloating) {
+        Client *at = nexttagged(c);
+        if(!at) {
+            attach(c);
+            return;
+            }
+        c->next = at->next;
+        at->next = c;
+		return;
+	}
+
+	//Set the new client's next property to the same as the currently selected clients next
+	c->next = c->mon->sel->next;
+	//Set the currently selected clients next property to the new client
+	c->mon->sel->next = c;
+
 }
 
 void
@@ -872,8 +897,8 @@ drawbar(Monitor *m)
 	/* draw status first so it can be overdrawn by tags later */
 	if (m == selmon) { /* status is only drawn on selected monitor */
 		drw_setscheme(drw, scheme[SchemeNorm]);
-		tw = TEXTW(stext) - lrpad + 2; /* 2px right padding */
-		drw_text(drw, m->ww - tw, 0, tw, bh, 0, stext, 0);
+		tw = TEXTW(stext);
+		drw_text(drw, m->ww - tw, 0, tw, bh, lrpad / 2, stext, 0);
 	}
 
 	for (c = m->clients; c; c = c->next) {
@@ -1235,7 +1260,7 @@ manage(Window w, XWindowAttributes *wa)
 		c->isfloating = c->oldstate = trans != None || c->isfixed;
 	if (c->isfloating)
 		XRaiseWindow(dpy, c->win);
-	attach(c);
+	attachBelow(c);
 	attachstack(c);
 	XChangeProperty(dpy, root, netatom[NetClientList], XA_WINDOW, 32, PropModeAppend,
 		(unsigned char *) &(c->win), 1);
@@ -1365,6 +1390,16 @@ movemouse(const Arg *arg)
 		selmon = m;
 		focus(NULL);
 	}
+}
+
+ Client *
+nexttagged(Client *c) {
+	Client *walked = c->mon->clients;
+	for(;
+		walked && (walked->isfloating || !ISVISIBLEONTAG(walked, c->tags));
+		walked = walked->next
+	);
+	return walked;
 }
 
 Client *
@@ -1621,7 +1656,7 @@ sendmon(Client *c, Monitor *m)
 	detachstack(c);
 	c->mon = m;
 	c->tags = m->tagset[m->seltags]; /* assign tags of target monitor */
-	attach(c);
+	attachBelow(c);
 	attachstack(c);
 	focus(NULL);
 	arrange(NULL);
@@ -1781,8 +1816,8 @@ setup(void)
 	drw = drw_create(dpy, screen, root, sw, sh);
 	if (!drw_fontset_create(drw, fonts, LENGTH(fonts)))
 		die("no fonts could be loaded.");
-	lrpad = drw->fonts->h + barpadw;
-	bh = drw->fonts->h + 2 + barpadh;
+	lrpad = drw->fonts->h + horizpadbar;
+	bh = drw->fonts->h + 2 + vertpadbar;
 	updategeom();
 	/* init atoms */
 	utf8string = XInternAtom(dpy, "UTF8_STRING", False);
@@ -2203,6 +2238,7 @@ updategeom(void)
 					detachstack(c);
 					c->mon = mons;
 					attach(c);
+					attachBelow(c);
 					attachstack(c);
 				}
 				if (m == selmon)

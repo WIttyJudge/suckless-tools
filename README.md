@@ -23,6 +23,18 @@ if you want to delete extension (unpatches).
 patch -R < patches/patch.diff
 ```
 
+## DWM
+
+Patches: 
+ - [vanitygaps](https://dwm.suckless.org/patches/vanitygaps/) - Control inner, outer, horizontal and vertical gaps independently.
+ - [attachasideandbelow](https://dwm.suckless.org/patches/attachasideandbelow/) - Combination between attachaside and attachbelow.
+
+ - [statuspadding](https://dwm.suckless.org/patches/statuspadding/)
+ - [titlecolor](https://dwm.suckless.org/patches/titlecolor) - Add a new color schema used by window title.
+ - [xresources](https://dwm.suckless.org/patches/xresources/) - Reads colors and additional settings from Xresources.
+
+ - [dwmblocks(2)](https://gist.github.com/danbyl/54f7c1d57fc6507242a95b71c3d8fdea) - Add support for clickable dwmblocks via statuscmd.
+
 ## Dmenu
 
 Patches: 
