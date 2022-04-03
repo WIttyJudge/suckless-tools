@@ -34,11 +34,11 @@ static char selfgcolor[]           = "#eeeeee";
 static char selbordercolor[]       = "#770000";
 static char selbgcolor[]           = "#005577";
 static char *colors[][3] = {
-       /*               fg           bg           border   */
-       [SchemeNorm] = { normfgcolor, normbgcolor, normbordercolor },
-       [SchemeSel] = { selfgcolor,  selbgcolor,  selbordercolor  },
-       /* Colors of the title bar */
-       [SchemeTitle] = { normfgcolor, normbgcolor, normbordercolor  },
+  /*               fg           bg           border   */
+  [SchemeNorm] = { normfgcolor, normbgcolor, normbordercolor },
+  [SchemeSel] = { selfgcolor,  selbgcolor,  selbordercolor  },
+  /* Colors of the title bar */
+  [SchemeTitle] = { normfgcolor, normbgcolor, normbordercolor  },
 };
 
 typedef struct {
@@ -63,8 +63,6 @@ static const Rule rules[] = {
   */
   /* class             instance      title        tags mask    isfloating   isterminal  noswallow  monitor */
   { TERMCLASS,          NULL,       NULL,           0,           0,           1,         0,        -1 },
-  { NULL,              "spterm",    NULL,          SPTAG(0),     1,           1,         0,        -1 },
-  { NULL,              "spcalc",    NULL,          SPTAG(1),     1,           1,         0,        -1 },
   { NULL,               NULL,       "Event Tester",   0,         0,           0,         1,        -1 },
 
   { "Brave",            NULL,       NULL,          1 << 0,       0,           0,         0,        -1 },
