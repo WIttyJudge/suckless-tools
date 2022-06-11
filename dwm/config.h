@@ -74,6 +74,8 @@ static const Rule rules[] = {
   { "discord",          NULL,       NULL,          1 << 3,       0,           0,         0,        -1 },
   { "Slack",            NULL,       NULL,          1 << 3,       0,           0,         0,        -1 },
   { "zoom",             NULL,       NULL,          1 << 3,       0,           0,         0,        -1 },
+  { "zoom",             NULL,       NULL,          1 << 3,       0,           0,         0,        -1 },
+  { "KingdomTwoCrowns", NULL,       NULL,          1 << 3,       0,           0,         0,        -1 },
 
   { "Steam",            NULL,       NULL,          1 << 4,       0,           0,         0,        -1 },
   { "Lutris",           NULL,       NULL,          1 << 4,       0,           0,         0,        -1 },
@@ -114,7 +116,7 @@ static const Layout layouts[] = {
 #define STACKKEYS(MOD,ACTION) \
   { MOD,  XK_j, ACTION##stack,  {.i = INC(+1) } }, \
   { MOD,  XK_k, ACTION##stack,  {.i = INC(-1) } }, \
-  { MOD,  XK_v,   ACTION##stack,  {.i = 0 } }, \
+  { MOD,  XK_v, ACTION##stack,  {.i = 0 } }, \
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
@@ -148,9 +150,10 @@ ResourcePref resources[] =  {
 #include "shiftview.c"
 
 static Key keys[] = {
-  /* modifier         key        function        argument */
   STACKKEYS(MODKEY,                          focus)
   STACKKEYS(MODKEY|ShiftMask,                push)
+
+  /* modifier         key        function        argument */
   TAGKEYS(      XK_1,   0)
   TAGKEYS(      XK_2,   1)
   TAGKEYS(      XK_3,   2)
@@ -184,24 +187,24 @@ static Key keys[] = {
   { MODKEY|ShiftMask,   XK_o,   incnmaster, {.i = -1 } },
 
   { MODKEY,             XK_backslash,   view,   {0} },
-
   { MODKEY,             XK_g,   shiftview,  { .i = -1 } },
   { MODKEY|ShiftMask,   XK_g,   shifttag,   { .i = -1 } },
 
   { MODKEY,             XK_a,   togglegaps, {0} },
   { MODKEY|ShiftMask,   XK_a,   defaultgaps,  {0} },
   { MODKEY,             XK_s,   togglesticky, {0} },
-  /* { MODKEY|ShiftMask,    XK_s,   spawn,    SHCMD("") }, */
 
   { MODKEY,             XK_f,   togglefullscr,  {0} },
 
   { MODKEY|ShiftMask,   XK_f,   setlayout,  {.v = &layouts[8]} },
 
+  /* Resize */
   { MODKEY,             XK_h,   setmfact, {.f = -0.05} },
   { MODKEY,             XK_l,   setmfact, {.f = +0.05} },
 
   { MODKEY,             XK_semicolon, shiftview,  { .i = 1 } },
   { MODKEY|ShiftMask,   XK_semicolon, shifttag, { .i = 1 } },
+
   { MODKEY,             XK_apostrophe,  togglescratch,  {.ui = 1} },
   { MODKEY|ShiftMask,   XK_Return,  togglescratch,  {.ui = 0} },
 
@@ -216,13 +219,12 @@ static Key keys[] = {
   { MODKEY,             XK_Right, focusmon, {.i = +1 } },
   { MODKEY|ShiftMask,   XK_Right, tagmon,   {.i = +1 } },
 
-  { MODKEY,             XK_Page_Up, shiftview,  { .i = -1 } },
-  { MODKEY|ShiftMask,   XK_Page_Up, shifttag, { .i = -1 } },
+  { MODKEY,             XK_Page_Up,   shiftview,  { .i = -1 } },
+  { MODKEY|ShiftMask,   XK_Page_Up,   shifttag, { .i = -1 } },
   { MODKEY,             XK_Page_Down, shiftview,  { .i = +1 } },
   { MODKEY|ShiftMask,   XK_Page_Down, shifttag, { .i = +1 } },
 
-  /* { MODKEY,      XK_F5,    xrdb,   {.v = NULL } }, */
-  { MODKEY,     XK_space, zoom,   {0} },
+  { MODKEY,             XK_space, zoom,           {0} },
   { MODKEY|ShiftMask,   XK_space, togglefloating, {0} },
 };
 
