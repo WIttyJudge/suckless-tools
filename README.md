@@ -28,6 +28,8 @@ patch -R < patches/patch.diff
 Patches:
  - [vanitygaps](https://dwm.suckless.org/patches/vanitygaps/) - Control inner, outer, horizontal and vertical gaps independently.
  - [attachasideandbelow](https://dwm.suckless.org/patches/attachasideandbelow/) - Combination between attachaside and attachbelow.
+ - [stacker](https://dwm.suckless.org/patches/stacker/) - Keybindings to focus on, or push, any client in the slack.
+ - [systray]()
 
  - [statuspadding](https://dwm.suckless.org/patches/statuspadding/) - Add horizontal and vertical padding in the statusbar.
  - [titlecolor](https://dwm.suckless.org/patches/titlecolor) - Add a new color schema used by window title.
