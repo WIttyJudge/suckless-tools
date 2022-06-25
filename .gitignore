@@ -8,3 +8,7 @@ slock/slock
 **/*.orig
 **/*.rej
 **/*.o
+
+st/st
+st/st.o
+st/x.o
