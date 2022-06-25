@@ -48,6 +48,17 @@ Patches:
  - [lineheight](https://tools.suckless.org/dmenu/patches/line-height/)
  - [numbers](https://tools.suckless.org/dmenu/patches/numbers/)
 
+## ST
+
+Patches:
+ - [alpha](https://st.suckless.org/patches/alpha/) - Adds opacity to the background (must have a compositor for this to work).
+ - [font2](https://st.suckless.org/patches/font2/) - Adds the option to list multiple fonts.
+ - [ligature](https://st.suckless.org/patches/ligatures/) - Adds ligature support (required harfbuzz).
+ - [xresources](https://st.suckless.org/patches/xresources/) - Adds the ability to configure st via Xresources.
+ - [workingdir](https://st.suckless.org/patches/workingdir/) - Adds option to open st at specific directory (ex: st -d ~/folder).
+ <!--- [boxdraw](https://st.suckless.org/patches/boxdraw/) - Adds option to open st at specific directory (ex: st -d ~/folder).-->
+  
+
 ## Slock
 
 Patches:
