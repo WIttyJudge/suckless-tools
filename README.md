@@ -56,7 +56,11 @@ Patches:
  - [ligature](https://st.suckless.org/patches/ligatures/) - Adds ligature support (required harfbuzz).
  - [xresources](https://st.suckless.org/patches/xresources/) - Adds the ability to configure st via Xresources.
  - [workingdir](https://st.suckless.org/patches/workingdir/) - Adds option to open st at specific directory (ex: st -d ~/folder).
- <!--- [boxdraw](https://st.suckless.org/patches/boxdraw/) - Adds option to open st at specific directory (ex: st -d ~/folder).-->
+ - [scrollback](https://st.suckless.org/patches/scrollback/) - Adds scrollback with SHIFT+PageUp/PageDown.
+ - [scrollback-mouse](https://st.suckless.org/patches/scrollback/) - Adds the ability to scroll with SHIFT+MouseWheel.
+ - [scrollback-mouse-altscreen](https://st.suckless.org/patches/scrollback/) - Now you can scroll with just the MouseWhell (no SHIFT required).
+ - [vertcenter](https://st.suckless.org/patches/vertcenter/) - Better vertical alignment.
+ - [bold is not bright](https://st.suckless.org/patches/bold-is-not-bright/) - Bold text should be bold, not bright.
   
 
 ## Slock
