@@ -36,7 +36,6 @@ typedef struct {
 	void (*func)(const Arg *);
 	const Arg arg;
 	uint  release;
-	int  altscrn;  /* 0: don't care, -1: not alt screen, 1: alt screen */
 } MouseShortcut;
 
 typedef struct {
@@ -99,7 +98,6 @@ typedef struct {
 	int w, h; /* window width and height */
 	int ch; /* char height */
 	int cw; /* char width  */
-	int cyo; /* char y offset */
 	int mode; /* window state/mode flags */
 	int cursor; /* cursor style */
 } TermWindow;
@@ -174,9 +172,9 @@ static void xresize(int, int);
 static void xhints(void);
 static int xloadcolor(int, const char *, Color *);
 static int xloadfont(Font *, FcPattern *);
+static void xloadfonts(const char *, double);
 static int xloadsparefont(FcPattern *, int);
 static void xloadsparefonts(void);
-static void xloadfonts(const char *, double);
 static void xunloadfont(Font *);
 static void xunloadfonts(void);
 static void xsetenv(void);
@@ -478,7 +476,6 @@ mouseaction(XEvent *e, uint release)
 	for (ms = mshortcuts; ms < mshortcuts + LEN(mshortcuts); ms++) {
 		if (ms->release == release &&
 		    ms->button == e->xbutton.button &&
-		    (!ms->altscrn || (ms->altscrn == (tisaltscr() ? 1 : -1))) &&
 		    (match(ms->mod, state) ||  /* exact or forced */
 		     match(ms->mod, state & ~forcemousemod))) {
 			ms->func(&(ms->arg));
@@ -1062,7 +1059,6 @@ xloadfonts(const char *fontstr, double fontsize)
 	/* Setting character width and height. */
 	win.cw = ceilf(dc.font.width * cwscale);
 	win.ch = ceilf(dc.font.height * chscale);
-	win.cyo = ceilf(dc.font.height * (chscale - 1) / 2);
 
 	FcPatternDel(pattern, FC_SLANT);
 	FcPatternAddInteger(pattern, FC_SLANT, FC_SLANT_ITALIC);
@@ -1376,6 +1372,8 @@ xinit(int cols, int rows)
 	xsel.xtarget = XInternAtom(xw.dpy, "UTF8_STRING", 0);
 	if (xsel.xtarget == None)
 		xsel.xtarget = XA_STRING;
+
+	boxdraw_xinit(xw.dpy, xw.cmap, xw.draw, xw.vis);
 }
 
 int
@@ -1394,7 +1392,7 @@ xmakeglyphfontspecs(XftGlyphFontSpec *specs, const Glyph *glyphs, int len, int x
 	FcCharSet *fccharset;
 	int i, f, numspecs = 0;
 
-	for (i = 0, xp = winx, yp = winy + font->ascent + win.cyo; i < len; ++i) {
+	for (i = 0, xp = winx, yp = winy + font->ascent; i < len; ++i) {
 		/* Fetch rune and mode for current glyph. */
 		rune = glyphs[i].u;
 		mode = glyphs[i].mode;
@@ -1419,11 +1417,16 @@ xmakeglyphfontspecs(XftGlyphFontSpec *specs, const Glyph *glyphs, int len, int x
 				font = &dc.bfont;
 				frcflags = FRC_BOLD;
 			}
-			yp = winy + font->ascent + win.cyo;
+			yp = winy + font->ascent;
 		}
 
-		/* Lookup character index with default font. */
-		glyphidx = XftCharIndex(xw.dpy, font->match, rune);
+		if (mode & ATTR_BOXDRAW) {
+			/* minor shoehorning: boxdraw uses only this ushort */
+			glyphidx = boxdrawindex(&glyphs[i]);
+		} else {
+			/* Lookup character index with default font. */
+			glyphidx = XftCharIndex(xw.dpy, font->match, rune);
+		}
 		if (glyphidx) {
 			specs[numspecs].font = font->match;
 			specs[numspecs].glyph = glyphidx;
@@ -1626,17 +1629,21 @@ xdrawglyphfontspecs(const XftGlyphFontSpec *specs, Glyph base, int len, int x, i
 	r.width = width;
 	XftDrawSetClipRectangles(xw.draw, winx, winy, &r, 1);
 
-	/* Render the glyphs. */
-	XftDrawGlyphFontSpec(xw.draw, fg, specs, len);
+	if (base.mode & ATTR_BOXDRAW) {
+		drawboxes(winx, winy, width / len, win.ch, fg, bg, specs, len);
+	} else {
+		/* Render the glyphs. */
+		XftDrawGlyphFontSpec(xw.draw, fg, specs, len);
+	}
 
 	/* Render underline and strikethrough. */
 	if (base.mode & ATTR_UNDERLINE) {
-	  XftDrawRect(xw.draw, fg, winx, winy + win.cyo + dc.font.ascent * chscale + 1,
+		XftDrawRect(xw.draw, fg, winx, winy + dc.font.ascent * chscale + 1,
 				width, 1);
 	}
 
 	if (base.mode & ATTR_STRUCK) {
-		XftDrawRect(xw.draw, fg, winx, winy + win.cyo + 2 * dc.font.ascent * chscale / 3,
+		XftDrawRect(xw.draw, fg, winx, winy + 2 * dc.font.ascent * chscale / 3,
 				width, 1);
 	}
 
@@ -1673,7 +1680,7 @@ xdrawcursor(int cx, int cy, Glyph g, int ox, int oy, Glyph og, Line line, int le
 	/*
 	 * Select the right color for the right mode.
 	 */
-	g.mode &= ATTR_BOLD|ATTR_ITALIC|ATTR_UNDERLINE|ATTR_STRUCK|ATTR_WIDE;
+	g.mode &= ATTR_BOLD|ATTR_ITALIC|ATTR_UNDERLINE|ATTR_STRUCK|ATTR_WIDE|ATTR_BOXDRAW;
 
 	if (IS_SET(MODE_REVERSE)) {
 		g.mode |= ATTR_REVERSE;
