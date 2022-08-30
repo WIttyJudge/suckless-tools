@@ -3,6 +3,8 @@
 
 /* -b  option; if 0, dmenu appears at bottom     */
 static int topbar = 1;
+/* -F  option; if 0, dmenu doesn't use fuzzy matching     */
+static int fuzzy = 1;
 /* -c option; centers dmenu on screen */
 static int centered = 0;
 /* minimum width when centered */
@@ -44,4 +46,4 @@ static unsigned int min_lineheight = 8;
 static const char worddelimiters[] = " ";
 
 /* Size of the window border */
-static const unsigned int border_width = 5;
+static const unsigned int border_width = 1;
