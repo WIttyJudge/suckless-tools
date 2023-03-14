@@ -1,8 +1,8 @@
 /* See LICENSE file for copyright and license details. */
 
 /* Constants */
-#define TERMINAL "urxvt"
-#define TERMCLASS "Alacritty"
+#define TERMINAL "st"
+#define TERMCLASS "st"
 
 /* appearance */
 static unsigned int borderpx = 2;       /* border pixel of windows */
@@ -69,7 +69,7 @@ static const Rule rules[] = {
   */
   /* class             instance      title        tags mask    isfloating   isterminal  noswallow  monitor */
 	{ TERMCLASS,          NULL,       NULL,              0,        0,           1,         0,        -1 },
-	{ NULL,           NULL, "Event Tester",              0,        0,           0,         1,        -1 },
+	{ NULL,               NULL, "Event Tester",              0,        0,           0,         1,        -1 },
 	{ TERMCLASS,          "bg",       NULL,      	  1 << 7,        0,           1,         0,        -1 },
 	{ TERMCLASS,          "spterm",   NULL,     	 SPTAG(0),       1,           1,         0,        -1 },
 	{ TERMCLASS,          "spcalc",   NULL,      	 SPTAG(1),       1,           1,         0,        -1 },
